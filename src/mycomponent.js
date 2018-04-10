@@ -1,6 +1,6 @@
 // import default from './hello';
 
-const etch = require('etch')
+const etch = require("../lib/index")
 
 class Child {
   // Required: Define an ordinary constructor to initialize your component.

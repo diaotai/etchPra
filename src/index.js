@@ -8,7 +8,7 @@ console.log("component",component)
 // },5000)
 
 // // use the component's associated DOM element however you wish...
-// document.body.appendChild(component.element)
+document.body.appendChild(component.element)
 
 // update the component as needed...
 // await component.update({bar: 2})
