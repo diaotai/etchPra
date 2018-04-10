@@ -2,7 +2,7 @@ import "babel-polyfill";
 import MyComponent from "./mycomponent";
 // build a component instance in a standard way...
 let component = new MyComponent({foo: 1, bar: 2})
-console.log("component",component)
+//console.log("component",component)
 // setTimeout(()=>{
 //   component.update({foo:999})
 // },5000)
