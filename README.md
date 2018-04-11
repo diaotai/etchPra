@@ -8,6 +8,7 @@
 * * *
 ### 本项目目标
 原本只是在写自己的bl框架时遇到瓶颈所以到etch那边取取经，没想到越看越有意思，因此我决定在etch代码中补上自己的理解，以及把etch运行的流程写出来。大神就不用看了，我这个相当于自己的学习笔记，另外给跟我差不多的萌新看的。
+etch的代码在lib里面
 
 ***
 
@@ -33,6 +34,8 @@ initialize干的非常简单，调用component实例的render函数返回jsx转�
 接下来我们深入etch.updateSync来看看它到底是怎么做的。
 
 其实很简单，由于scheduler的骚操作，在调用updateSync之前实质性的更新已经全部调用，然后我们要做的就是调用component.render获取新的virtualNode,然后通过patch函数根据新旧virtualNode判断哪些部分需要更新，然后对DOM进行更新，最后处理生命周期函数，完美。
+
+那么scheduler的骚操作到底是什么呢？其实就是靠requestAnimationFrame保证所有的更新都在同一帧内解决。另外通过weakSet机制，可以保证一个组件在它完成自己的实质性更新之前绝不会再重绘（这里是说数据会更新，但不会反映到实际的DOM元素上，这就很完美的做到了避免冗余的更新）
 
 最后我们看一看组件的卸载和销毁部分。这部分应该是destroy负责的，我们要在组件的destory方法中调用etch.destory。要说一下，etch.destory和etch.update一样是异步函数.然后我们可以根据update很轻松的猜出一定含有一个同步版的destroySync。没错，就是这样，真正的卸载是在destroySync中完成的。逻辑也很简单，组件上的destory会被调用，它的子组件上具有destory的也会被调用，这样一直递归。最后从DOM树上删除掉component对应的DOM元素。
 
